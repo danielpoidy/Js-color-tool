@@ -1,18 +1,19 @@
+const hexInput = document.getElementById('hexInput')
+const inputColor = document.getElementById('inputColor')
+const sliderText = document.getElementById('sliderText')
+const slider = document.getElementById('slider')
+
 // Check if the user has entered a valid hex color
 
 const isValidHex = (hex) => {
   if (!hex) {
-    return false    
-  } 
+    return false
+  }
   const strippedHex = hex.replace('#', '')
   return strippedHex.length === 3 || strippedHex.length === 6
 
-  // Remember to check if the hex input contains only numbers between (0 - 9) and letters between (a - f) 
+  // Remember to check if the hex input contains only numbers between (0 - 9) and letters between (a - f)
 }
-
-const hexInput = document.getElementById('hexInput')
-
-const inputColor = document.getElementById('inputColor')
 
 const getInputColor = () => {
   const hex = hexInput.value
@@ -20,9 +21,37 @@ const getInputColor = () => {
 
   const strippedHex = hex.replace('#', '')
 
-  inputColor.style.backgroundColor = '#'+strippedHex
+  inputColor.style.backgroundColor = '#' + strippedHex
 
   console.log('done ok')
 }
 
 hexInput.addEventListener('keyup', getInputColor)
+
+const convertHexToRGB = (hex) => {
+  if (!isValidHex(hex)) return null
+
+  let strippedHex = hex.replace('#', '')
+
+  if (strippedHex.length === 3) {
+    strippedHex = strippedHex[0] + strippedHex[0] + strippedHex[1] + strippedHex[1] + strippedHex[2] + strippedHex[2]
+  }
+
+  const r = parseInt(strippedHex.substring(0, 2), 16)
+  const g = parseInt(strippedHex.substring(2, 4), 16)
+  const b = parseInt(strippedHex.substring(4, 6), 16)
+  return { r, g, b }
+}
+
+const convertRGBToHex = (r, g, b) => {
+  const firstPair = ('0' + r.toString(16)).slice(-2)
+  const secondtPair = ('0' + g.toString(16)).slice(-2)
+  const thirdPair = ('0' + b.toString(16)).slice(-2)
+
+  const hex = '#' + firstPair + secondtPair + thirdPair
+  return hex
+}
+
+slider.addEventListener('input', () => {
+  sliderText.innerHTML = `${slider.value}%`
+})
