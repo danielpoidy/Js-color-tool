@@ -1,3 +1,4 @@
+// Main variables declarations
 const hexInput = document.getElementById('hexInput')
 const inputColor = document.getElementById('inputColor')
 const sliderText = document.getElementById('sliderText')
@@ -42,8 +43,6 @@ const getInputColor = () => {
   inputColor.style.backgroundColor = '#' + strippedHex
 
   reset()
-
-  console.log('done ok')
 }
 
 hexInput.addEventListener('keyup', getInputColor)
