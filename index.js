@@ -4,6 +4,22 @@ const sliderText = document.getElementById('sliderText')
 const slider = document.getElementById('slider')
 const alteredColor = document.getElementById('alteredColor')
 const alteredColorText = document.getElementById('alteredColorText')
+const lightenText = document.getElementById('lightenText')
+const darkenText = document.getElementById('darkenText')
+const toggleBtn = document.getElementById('toggleBtn')
+
+toggleBtn.addEventListener('click', () => {
+  if (toggleBtn.classList.contains('toggled')) {
+    toggleBtn.classList.remove('toggled')
+    lightenText.classList.remove('unselected')
+    darkenText.classList.add('unselected')
+  } else {
+    toggleBtn.classList.add('toggled')
+    lightenText.classList.add('unselected')
+    darkenText.classList.remove('unselected')
+  }
+  reset()
+})
 
 // Check if the user has entered a valid hex color
 
@@ -24,6 +40,8 @@ const getInputColor = () => {
   const strippedHex = hex.replace('#', '')
 
   inputColor.style.backgroundColor = '#' + strippedHex
+
+  reset()
 
   console.log('done ok')
 }
@@ -79,7 +97,19 @@ slider.addEventListener('input', () => {
 
   sliderText.innerHTML = `${slider.value}%`
 
-  const alteredHex = alterColor(hexInput.value, slider.value)
+  const valueAddition =
+    toggleBtn.classList.contains('toggled')
+      ? -slider.value
+      : slider.value
+
+  const alteredHex = alterColor(hexInput.value, valueAddition)
   alteredColor.style.backgroundColor = alteredHex
   alteredColorText.innerText = `Altered Color${alteredHex}`
 })
+
+const reset = () => {
+  slider.value = 0
+  sliderText.innerText = '0%'
+  alteredColor.style.backgroundColor = hexInput.value
+  alteredColorText.innerText = `Altered Color${hexInput.value}`
+}
